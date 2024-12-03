@@ -1,6 +1,7 @@
 package com.order.service.infrastructure.persistence.entities
 
 import jakarta.persistence.*
+import lombok.ToString
 import org.jetbrains.annotations.NotNull
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -21,7 +22,16 @@ data class OrderEntity(
     var status: String,
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL])
+    @ToString.Exclude
     val orderItens: List<OrderItemEntity>,
+
+    var idPay: Int? = null,
+
+    var mercadoPagoId: Int? = null,
+
+    var qrCode: String? = null,
+
+    var statusPayment: String? = null,
 
     ) {
     fun formatter(order: OrderEntity): OrderEntity {

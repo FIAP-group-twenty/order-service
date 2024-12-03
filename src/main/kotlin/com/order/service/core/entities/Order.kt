@@ -12,4 +12,5 @@ data class Order(
     val lastUpdateOrder: LocalDateTime? = LocalDateTime.now(),
     val status: String,
     val orderItems: List<OrderItemEntity>,
+    val payment: PaymentOrder
 )

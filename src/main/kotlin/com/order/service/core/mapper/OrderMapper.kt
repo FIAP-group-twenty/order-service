@@ -1,9 +1,6 @@
 package com.order.service.core.mapper
 
-import com.order.service.core.entities.CreateOrder
-import com.order.service.core.entities.Order
-import com.order.service.core.entities.OrderStatus
-import com.order.service.core.entities.UpdateOrder
+import com.order.service.core.entities.*
 import com.order.service.infrastructure.persistence.entities.OrderEntity
 import com.order.service.infrastructure.persistence.entities.OrderItemEntity
 
@@ -19,7 +16,11 @@ object OrderMapper {
                     idProduct = productModel.id,
                     quantity = productModel.quantity,
                 )
-            }
+            },
+            idPay = createOrder.paymentOrder?.idPay,
+            mercadoPagoId = createOrder.paymentOrder?.mercadoPagoId,
+            qrCode = createOrder.paymentOrder?.qrCode,
+            statusPayment = createOrder.paymentOrder?.statusPayment
         )
     }
 
@@ -31,6 +32,12 @@ object OrderMapper {
         lastUpdateOrder = order.lastUpdateOrder,
         status = order.status,
         orderItems = order.orderItens,
+        payment = PaymentOrder(
+            idPay = order.idPay,
+            mercadoPagoId = order.mercadoPagoId,
+            qrCode = order.qrCode,
+            statusPayment = order.statusPayment,
+        )
     )
 
     fun formatterOrderList(orders: List<OrderEntity>): List<Order> {

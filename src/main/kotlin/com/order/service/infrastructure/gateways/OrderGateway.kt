@@ -7,6 +7,8 @@ import com.order.service.core.gateways.IOrderGateway
 import com.order.service.core.mapper.OrderMapper.formatterOrderList
 import com.order.service.core.mapper.OrderMapper.toDTO
 import com.order.service.core.mapper.OrderMapper.toEntity
+import com.order.service.core.util.CREATE_ORDER_ERROR
+import com.order.service.infrastructure.exceptions.ResourceInternalServerException
 import com.order.service.infrastructure.persistence.jpa.IOrderDataSource
 import org.springframework.stereotype.Repository
 
@@ -21,7 +23,8 @@ class OrderGateway(
            val saveOrder = orderDataSource.save(createNewOrder.formatter(createNewOrder))
            return toDTO(saveOrder)
        }catch (ex: Exception){
-           throw ex
+           throw ResourceInternalServerException(CREATE_ORDER_ERROR, ex)
+
        }
     }
 
@@ -30,7 +33,7 @@ class OrderGateway(
             val orders = orderDataSource.findOrdersByStatusAndCreationTime()
             return formatterOrderList(orders)
         } catch (ex: Exception) {
-            throw ex
+            throw ResourceInternalServerException("Unable to list orders, please try again later.", ex)
         }
     }
 
@@ -40,7 +43,7 @@ class OrderGateway(
                 toDTO(order)
             }
         } catch (ex: Exception) {
-            throw ex
+            throw ResourceInternalServerException("Failed to find order $orderId.", ex)
         }
     }
 
@@ -50,7 +53,7 @@ class OrderGateway(
             val result = orderDataSource.save(orderUpdate)
             return toDTO(result)
         } catch (ex: Exception) {
-            throw ex
+            throw ResourceInternalServerException("Failed to update order with ID: ${oldOrder.idOrder}", ex)
         }
     }
 }
