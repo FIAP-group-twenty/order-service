@@ -17,7 +17,7 @@ FROM gradle:latest AS builder
 
 WORKDIR /app
 
-COPY build.gradle.kts settings.gradle.kts ./
+COPY build.gradle settings.gradle ./
 COPY src ./src
 
 RUN gradle build --no-daemon
