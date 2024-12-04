@@ -3,6 +3,7 @@ package com.order.service.core.usecases
 import com.order.service.core.entities.Order
 import com.order.service.core.entities.PaymentOrder
 import com.order.service.core.gateways.IOrderGateway
+import com.order.service.core.mapper.PaymentMapper
 import com.order.service.core.usecase.ListOrderUseCase
 import io.mockk.every
 import io.mockk.mockk
@@ -29,7 +30,7 @@ class ListOrderUseCaseTest {
         orderValue = BigDecimal(100.0),
         idCustomer = 2,
         status = "SUCCESS",
-        payment = PaymentOrder(1, 1, "123", "success"),
+        payment = PaymentMapper.toEntity(1, "aaaaa", "APPROVED", BigDecimal(500)),
         orderItems = listOf(),
     )
 

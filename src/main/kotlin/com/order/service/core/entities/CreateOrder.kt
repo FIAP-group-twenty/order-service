@@ -1,12 +1,13 @@
 package com.order.service.core.entities
 
+import com.mercadopago.resources.payment.Payment
 import java.math.BigDecimal
 
 data class CreateOrder(
     var idCustomer: Int? = null,
     var totalOrder: BigDecimal = BigDecimal.ZERO,
     var products: List<OrderProduct>,
-    var paymentOrder: PaymentOrder? = null
+    var payment: Payment?
 ){
     fun calculateTotalOrderPrice(): BigDecimal {
         totalOrder = products.fold(BigDecimal.ZERO){ acc, product ->
@@ -15,7 +16,7 @@ data class CreateOrder(
         return totalOrder
     }
 
-    fun associatePayment(paymentOrder: PaymentOrder?){
-        this.paymentOrder = paymentOrder
+    fun associatePayment(payment: Payment?) {
+        this.payment = payment
     }
 }

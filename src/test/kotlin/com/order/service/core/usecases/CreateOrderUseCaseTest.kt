@@ -1,11 +1,19 @@
 package com.order.service.core.usecases
 
-import com.order.service.core.entities.*
+import com.order.service.core.entities.CreateOrder
+import com.order.service.core.entities.Order
+import com.order.service.core.entities.OrderProduct
+import com.order.service.core.entities.OrderStatus.PENDING
+import com.mercadopago.resources.payment.Payment
+import com.order.service.core.entities.Product
 import com.order.service.core.gateways.IOrderGateway
+import com.order.service.core.mapper.PaymentMapper
 import com.order.service.core.usecase.CreateOrderUseCase
-import com.order.service.infrastructure.api.client.PaymentGateway
+import com.order.service.infrastructure.api.client.PaymentPartnerGateway
 import com.order.service.infrastructure.api.client.ProductGateway
 import com.order.service.infrastructure.api.client.RedisRepository
+import com.order.service.infrastructure.persistence.entities.OrderEntity
+import com.order.service.infrastructure.persistence.entities.PaymentEntity
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -20,7 +28,7 @@ import java.math.BigDecimal
 class CreateOrderUseCaseTest {
 
     private lateinit var orderGateway: IOrderGateway
-    private lateinit var paymentGateway: PaymentGateway
+    private lateinit var paymentpartnerGateway: PaymentPartnerGateway
     private lateinit var productGateway: ProductGateway
     private lateinit var redisRepository: RedisRepository
     private lateinit var createOrderUseCase: CreateOrderUseCase
@@ -28,10 +36,10 @@ class CreateOrderUseCaseTest {
     @BeforeEach
     fun setUp() {
         orderGateway = mockk()
-        paymentGateway = mockk()
+        paymentpartnerGateway = mockk()
         productGateway = mockk()
         redisRepository = mockk()
-        createOrderUseCase = CreateOrderUseCase(orderGateway, paymentGateway, productGateway, redisRepository)
+        createOrderUseCase = CreateOrderUseCase(orderGateway, paymentpartnerGateway, productGateway, redisRepository)
     }
 
     val order = Order(
@@ -39,26 +47,22 @@ class CreateOrderUseCaseTest {
         orderValue = BigDecimal(100.0),
         idCustomer = 2,
         status = "SUCCESS",
-        payment = PaymentOrder(1, 1, "123", "success"),
+        payment = PaymentMapper.toEntity(1, "aaaaa" , "APPROVED", BigDecimal(500)),
         orderItems = listOf(),
     )
 
-    val paymentOrder = PaymentOrder(
-        1,
-        1,
-        "123",
-        "success"
-    )
+    private val paymentOrder = Payment()
 
     @Test
     fun `should correctly assign product prices when creating an order`() {
         val createOrder = CreateOrder(
             123,
             BigDecimal(100.0),
-            listOf(OrderProduct(1, 1, BigDecimal(100.00)))
+            listOf(OrderProduct(1, 1, BigDecimal(100.00))),
+            paymentOrder
         )
 
-        every { paymentGateway.createPayment(BigDecimal(100.0)) } returns paymentOrder
+        every { paymentpartnerGateway.createPayment(BigDecimal(100.0)) } returns paymentOrder
         every { productGateway.getProductById(1) } returns Product(id = 1, price = BigDecimal(100.0))
         every { orderGateway.createOrder(createOrder) } returns order
         every { redisRepository.save(any(),any()) } just Runs
@@ -67,7 +71,7 @@ class CreateOrderUseCaseTest {
 
         verify(exactly = 1) { productGateway.getProductById(1) }
         verify(exactly = 1) { orderGateway.createOrder(createOrder) }
-        verify(exactly = 1) { paymentGateway.createPayment(any()) }
+        verify(exactly = 1) { paymentpartnerGateway.createPayment(any()) }
     }
 
 
@@ -76,7 +80,8 @@ class CreateOrderUseCaseTest {
         val createOrder = CreateOrder(
             123,
             BigDecimal(100.0),
-            listOf(OrderProduct(2, 1, BigDecimal(100.00)))
+            listOf(OrderProduct(2, 1, BigDecimal(100.00))),
+            paymentOrder
         )
 
         every { productGateway.getProductById(any()) } throws RuntimeException("Unable to complete your order, please try again later.")

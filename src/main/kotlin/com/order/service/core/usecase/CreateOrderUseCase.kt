@@ -6,12 +6,13 @@ import com.order.service.core.entities.Order
 import com.order.service.core.gateways.IOrderGateway
 import com.order.service.infrastructure.api.client.RedisRepository
 import com.order.service.infrastructure.api.client.PaymentGateway
+import com.order.service.infrastructure.api.client.PaymentPartnerGateway
 import com.order.service.infrastructure.api.client.ProductGateway
 import com.order.service.infrastructure.exceptions.ResourceInternalServerException
 
 class CreateOrderUseCase(
     private val orderGateway: IOrderGateway,
-    private val paymentGateway: PaymentGateway,
+    private val paymentGateway: PaymentPartnerGateway,
     private val productGateway: ProductGateway,
     private val redisRepository: RedisRepository
 ) {

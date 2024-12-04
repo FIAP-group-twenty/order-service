@@ -1,4 +1,4 @@
-package com.order.service.infrastructure.persistence.redis
+package com.order.service.api.configuration
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

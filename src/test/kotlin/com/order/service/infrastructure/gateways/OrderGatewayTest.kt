@@ -1,14 +1,15 @@
 package com.order.service.infrastructure.gateways
 
-import com.order.service.core.entities.*
-import com.order.service.core.mapper.OrderMapper.toEntity
+import com.order.service.core.entities.CreateOrder
+import com.order.service.core.entities.Order
+import com.order.service.core.entities.OrderProduct
+import com.order.service.core.entities.OrderStatus
+import com.mercadopago.resources.payment.Payment
+import com.order.service.core.mapper.PaymentMapper
 import com.order.service.infrastructure.persistence.entities.OrderItemEntity
 import com.order.service.infrastructure.persistence.jpa.IOrderDataSource
-import io.mockk.every
 import io.mockk.mockk
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 
 class OrderGatewayTest {
@@ -22,11 +23,11 @@ class OrderGatewayTest {
         orderGateway = OrderGateway(orderDataSource)
     }
 
-    val createOrder = CreateOrder(
+    private val createOrder = CreateOrder(
         1,
         BigDecimal(100.0),
         listOf(OrderProduct(1, 1, BigDecimal(100.0))),
-        PaymentOrder(1, 1, "abc", "success")
+        Payment()
     )
 
     val order = Order(
@@ -35,7 +36,7 @@ class OrderGatewayTest {
         idCustomer = createOrder.idCustomer,
         status = OrderStatus.FINISHED.name,
         orderItems = listOf(OrderItemEntity(idOrderItem = 1, idProduct = 1, quantity = 1)),
-        payment = PaymentOrder(1, 1, "abc", "success")
+        payment = PaymentMapper.toEntity(1, "aaaaa", "APPROVED", BigDecimal(500))
     )
 
 //    @Test

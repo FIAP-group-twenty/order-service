@@ -1,6 +1,7 @@
 package com.order.service.core.entities
 
 import com.order.service.infrastructure.persistence.entities.OrderItemEntity
+import com.order.service.infrastructure.persistence.entities.PaymentEntity
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -12,5 +13,5 @@ data class Order(
     val lastUpdateOrder: LocalDateTime? = LocalDateTime.now(),
     val status: String,
     val orderItems: List<OrderItemEntity>,
-    val payment: PaymentOrder
+    val payment: PaymentEntity
 )
