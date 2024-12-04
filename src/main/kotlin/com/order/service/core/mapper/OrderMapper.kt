@@ -48,7 +48,7 @@ object OrderMapper {
         lastUpdateOrder = order.lastUpdateOrder,
         status = order.status,
         orderItems = order.orderItens,
-        payment = order.payment
+        payment = order.payment!!
     )
 
     fun Order.toEntity() =

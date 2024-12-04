@@ -13,6 +13,7 @@ class OrderEntityTest {
             idCustomer = 1,
             status = "NEW",
             orderItens = emptyList()
+
         )
 
         assertNull(order.idOrder)
@@ -31,11 +32,7 @@ class OrderEntityTest {
             orderValue = BigDecimal("150.00"),
             idCustomer = 2,
             status = "PROCESSING",
-            orderItens = listOf(orderItem),
-            idPay = 1,
-            mercadoPagoId = 1,
-            qrCode = "QRCode",
-            statusPayment = "PAID"
+            orderItens = listOf(orderItem)
         )
 
         val formattedOrder = order.formatter(order)
@@ -52,11 +49,7 @@ class OrderEntityTest {
             orderValue = BigDecimal("200.00"),
             idCustomer = 3,
             status = "SHIPPED",
-            orderItens = listOf(orderItem1, orderItem2),
-            idPay = 2,
-            mercadoPagoId = 2,
-            qrCode = "QRCode123",
-            statusPayment = "PAID"
+            orderItens = listOf(orderItem1, orderItem2)
         )
 
         val formattedOrder = order.formatter(order)

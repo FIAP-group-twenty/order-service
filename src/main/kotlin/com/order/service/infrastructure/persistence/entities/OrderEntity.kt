@@ -40,14 +40,14 @@ data class OrderEntity(
 
     @OneToOne(mappedBy = "order", cascade = [CascadeType.ALL])
     @ToString.Exclude
-    var payment: PaymentEntity
+    var payment: PaymentEntity? = null
 ) {
     fun formatter(order: OrderEntity): OrderEntity {
         order.orderItens.forEach {
             it.order = order
         }
 
-        order.payment.order = order
+        order.payment?.order = order
 
         return order
     }
