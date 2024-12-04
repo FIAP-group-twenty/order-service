@@ -3,7 +3,7 @@
 # JAR MUST BE BUILT BEFORE DEPLOYING
 # -----------------------------------
 
-#FROM openjdk:17-ea-10-alpine3.13
+#FROM openjdk:17-jdk-alpine
 #WORKDIR /app-docker
 #COPY build/libs/*.jar app.jar
 #EXPOSE 8080
