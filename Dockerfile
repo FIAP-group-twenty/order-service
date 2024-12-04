@@ -22,7 +22,7 @@ COPY src ./src
 
 RUN gradle build --no-daemon
 
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-alpine
 
 COPY --from=builder /app/build/libs/*.jar app.jar
 
