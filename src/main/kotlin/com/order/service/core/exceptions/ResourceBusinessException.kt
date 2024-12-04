@@ -1,4 +1,4 @@
-package br.group.twenty.challenge.core.exceptions
+package com.order.service.core.exceptions
 
 import com.order.service.infrastructure.api.entities.ErrorResponse
 

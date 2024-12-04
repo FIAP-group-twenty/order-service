@@ -1,8 +1,8 @@
 package com.order.service.api.configuration;
 
 
-import br.group.twenty.challenge.core.exceptions.ResourceBusinessException
-import br.group.twenty.challenge.core.exceptions.ResourceNotFoundException
+import com.order.service.core.exceptions.ResourceBusinessException
+import com.order.service.core.exceptions.ResourceNotFoundException
 import com.order.service.infrastructure.api.entities.ErrorResponse
 import com.order.service.infrastructure.exceptions.ResourceBadRequestException
 import com.order.service.infrastructure.exceptions.ResourceInternalServerException

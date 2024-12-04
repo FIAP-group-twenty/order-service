@@ -1,6 +1,5 @@
-package core.exceptions
+package com.order.service.core.exceptions
 
-import br.group.twenty.challenge.core.exceptions.ResourceNotFoundException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

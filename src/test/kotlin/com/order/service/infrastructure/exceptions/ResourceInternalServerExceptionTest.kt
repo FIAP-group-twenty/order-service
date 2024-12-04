@@ -1,4 +1,4 @@
-package infrastructure.exceptions
+package com.order.service.infrastructure.exceptions
 
 import com.order.service.infrastructure.exceptions.ResourceInternalServerException
 import org.junit.jupiter.api.Assertions.assertEquals

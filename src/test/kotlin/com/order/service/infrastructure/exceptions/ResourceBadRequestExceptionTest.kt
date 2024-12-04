@@ -1,6 +1,4 @@
-package infrastructure.exceptions
-
-import com.order.service.infrastructure.exceptions.ResourceBadRequestException
+package com.order.service.infrastructure.exceptions
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
