@@ -1,19 +1,4 @@
-# -----------------------------------
-# CONFIGURATIONS ONLY FOR DEPLOY
-# JAR MUST BE BUILT BEFORE DEPLOYING
-# -----------------------------------
-
-#FROM openjdk:17-jdk-alpine
-#WORKDIR /app-docker
-#COPY build/libs/*.jar app.jar
-#EXPOSE 8080
-#ENTRYPOINT ["java", "-jar", "app.jar"]
-
-# -----------------------------------
-# CONFIGURATIONS FOR BUILD AND DEPLOY
-# -----------------------------------
-
-FROM gradle:latest AS builder
+FROM gradle:8.0-jdk17 AS builder
 
 WORKDIR /app
 
